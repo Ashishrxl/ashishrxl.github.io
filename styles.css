@@ -3,7 +3,7 @@ body { padding: 100px; background:#717171; }
 
 #slider {
 	width:400px;
-	overflow:hidden;
+	overflow:visible;
 	border: 10px solid #4C4C4C;
 	height:266px;
 	position:relative;
