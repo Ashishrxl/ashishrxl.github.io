@@ -1,51 +1,84 @@
-
-body { padding: 100px; background:#717171; }
-
-#slider {
-	width:400px;
-	overflow:visible;
-	border: 10px solid #4C4C4C;
-	height:266px;
-	position:relative;
-	margin:auto;
+body {
+	padding-top: 50px;
+	font-family: Arial;
+	color: #333;
 }
 
-#slider ul {
+#slider-wrapper {
+	width: 1000px;
+	height: 358px;
+	margin: auto;
+	position: relative;
+	overflow: hidden;
+}
+
+ul,
+li {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+}
+
+#slider-wrapper ul {
+	width: 5000px;
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: flex;
+	transition: left 700ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#slider ul li img {
+#slider-wrapper ul li {
+	background-size: cover;
+	position: relative;
+	width: 1000px;
+	height: 300px;
+	float: left;
+}
+
+#slider-wrapper ul li:nth-child(1) {
+	background-image: url(images/leaves01.jpg);
+}
+#slider-wrapper ul li:nth-child(2) {
+	background-image: url(images/leaves02.jpg);
+}
+#slider-wrapper ul li:nth-child(3) {
+	background-image: url(images/leaves03.jpg);
+}
+#slider-wrapper ul li:nth-child(4) {
+	background-image: url(images/leaves04.jpg);
+}
+#slider-wrapper ul li:nth-child(5) {
+	background-image: url(images/leaves05.jpg);
+}
+
+.content {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 300px;
+	padding: 20px;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+#slider-controls {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	background-color: #333;
+	justify-content: space-between;
+}
+
+#slider-controls a {
 	display: block;
-}
-
-/********** Link Styles ***********/
-
-#links {
-	width:420px;
-	display: flex;
-	margin: 0 auto;
-}
-
-#links a {
-	display:block;
-	width:210px;
-	background:#6C0204;
-	height:50px;
-	line-height:50px;
-	color:#D5D5D5;
-	text-decoration:none;
-	font-family:Arial;
-	text-transform:uppercase;
-	text-align:center;
-}
-
-#links a:hover {
-	background:#A51D1F;
-	color:#fff;
+	padding: 20px;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+	text-align: center;
+	width: 200px;
+	background-color: #666;
 }
