@@ -11,7 +11,7 @@ $(window).on('load', function(){
         if(counter == imageCount){
             $('#slider ul').clone().appendTo('#slider');
             $('#slider ul').last().css('left', imageWidth + 'px');
-            leftPosition = -totalWidth;
+            leftPosition = `-${totalWidth}`;
             $('#slider ul').last().animate({left:0}, 700, "easeInQuad");
             $('#slider ul').first().animate({left: leftPosition}, 700, "easeInQuad", function(){
                 $('#slider ul').first().remove();
