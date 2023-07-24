@@ -1,35 +1,71 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Basic jQuery Image Slider</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Slider</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
 	<link href="styles.css" rel="stylesheet">
-
-        
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous" defer></script>	
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js' defer></script>
-<script src="script.js" defer></script>
-
 </head>
-
 <body>
-
-	<div id="slider">
+	<div id="slider-wrapper">
 		<ul>
-			<li><img src="image1.jpg" alt="slideshow image"></li>
-			<li><img src="image2.jpg" alt="slideshow image"></li>
-			<li><img src="image3.jpg" alt="slideshow image"></li>
-			<li><img src="image4.jpg" alt="slideshow image"></li>
-			<li><img src="image5.jpg" alt="slideshow image"></li>
+			<li>
+				<div class="content">
+					<h2>Slide Title</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing
+						elit. Eius modi et cumque quibusdam tempore earum
+						est, placeat facere non vero culpa inventore vitae!
+					</p>
+				</div>
+			</li>
+			<li>
+				<div class="content">
+					<h2>Slide Title</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing
+						elit. Eius modi et cumque quibusdam tempore earum
+						est, placeat facere non vero culpa inventore vitae!
+					</p>
+				</div>
+			</li>
+			<li>
+				<div class="content">
+					<h2>Slide Title</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing
+						elit. Eius modi et cumque quibusdam tempore earum
+						est, placeat facere non vero culpa inventore vitae!
+					</p>
+				</div>
+			</li>
+			<li>
+				<div class="content">
+					<h2>Slide Title</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing
+						elit. Eius modi et cumque quibusdam tempore earum
+						est, placeat facere non vero culpa inventore vitae!
+					</p>
+				</div>
+			</li>
+			<li>
+				<div class="content">
+					<h2>Slide Title</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing
+						elit. Eius modi et cumque quibusdam tempore earum
+						est, placeat facere non vero culpa inventore vitae!
+					</p>
+				</div>
+			</li>
 		</ul>
+		<div id="slider-controls">
+			<a href="#" id="prev">Previous</a>
+			<a href="#" id="next">Next</a>
+		</div>
 	</div>
-
-	<p id="links"><a href="#" id="previous">previous</a><a href="#" id="next">next</a></p>
-
+	<script src="script.js"></script>
 </body>
-
 </html>
