@@ -37,19 +37,19 @@ li {
 }
 
 #slider-wrapper ul li:nth-child(1) {
-	background-image: url(images/leaves01.jpg);
+	background-image: url(leaves01.jpg);
 }
 #slider-wrapper ul li:nth-child(2) {
-	background-image: url(images/leaves02.jpg);
+	background-image: url(leaves02.jpg);
 }
 #slider-wrapper ul li:nth-child(3) {
-	background-image: url(images/leaves03.jpg);
+	background-image: url(leaves03.jpg);
 }
 #slider-wrapper ul li:nth-child(4) {
-	background-image: url(images/leaves04.jpg);
+	background-image: url(leaves04.jpg);
 }
 #slider-wrapper ul li:nth-child(5) {
-	background-image: url(images/leaves05.jpg);
+	background-image: url(leaves05.jpg);
 }
 
 .content {
