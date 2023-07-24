@@ -13,8 +13,8 @@ $(window).on('load', function(){
             $('#slider ul').clone().appendTo('#slider');
             $('#slider ul').last().css('left', 800 + 'px');
             leftPosition = `-${totalWidth}`;
-            $('#slider ul').last().animate({left:0}, 700, "easeInQuad");
-            $('#slider ul').first().animate({left: leftPosition}, 700, "easeInQuad", function(){
+            $('#slider ul').last().animate({left:0}, 7000, "easeInQuad");
+            $('#slider ul').first().animate({left: leftPosition}, 7000, "easeInQuad", function(){
                 $('#slider ul').first().remove();
             });
             counter = 0;
