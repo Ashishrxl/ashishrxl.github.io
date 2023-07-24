@@ -20,7 +20,6 @@ $(window).on('load', function(){
 
         }
         else{
-            alert('hi');
             leftPosition = `-${counter * imageWidth}px`;
             alert(leftPosition);
             $('#slider ul').animate({left: leftPosition}, 700, 'easeInQuad');
