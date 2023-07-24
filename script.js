@@ -18,7 +18,8 @@ $(window).on('load', function(){
             });
             counter = 0;
 
-        }else{
+        }
+        else{
             leftPosition = `-${counter * imageWidth}px`;
             alert(leftPosition);
             $('#slider ul').animate({left: leftPosition}, 700, 'easeInQuad');
