@@ -5,6 +5,7 @@ $(window).on('load', function(){
     const totalWidth = (imageCount * imageWidth)+ 'px';
     let position = 0;
     let counter = 0;
+    $('#slider ul').css('width', totalWidth);
     
     $('#next').click(function(){
         counter++;
