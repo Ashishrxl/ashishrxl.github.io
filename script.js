@@ -29,4 +29,26 @@ $(window).on('load', function(){
 
     });
 
+
+    $('#previous').click(function(){ 
+         counter--; 
+         if(counter < 0){ 
+             counter = imageCount - 1;
+             $('#slider ul').clone().appendTo('#slider'); 
+             $('#slider ul').last().css('left', `-${totalWidth}`); 
+             leftPosition = `-${counter * imageWidth}`; 
+             $('#slider ul').last().animate({left: leftPosition}, 700, "easeInQuad"); 
+             $('#slider ul').first().animate({left: imageWidth + 'px'}, 700, "easeInQuad", function(){ 
+                 $('#slider ul').first().remove(); 
+             }); 
+            
+  
+         } 
+         else{ 
+             leftPosition = `-${counter * imageWidth}px`; 
+  
+             $('#slider ul').animate({left: leftPosition}, 700, "easeInQuad"); 
+  
+         }    
+
 });
