@@ -3,7 +3,7 @@ $(window).on('load', function(){
     const imageCount = $('#slider ul li').length;
     const imageWidth = $('#slider ul li img').first().width();
     const totalWidth = (imageCount * imageWidth)+ 'px';
-    let position = 0;
+    let leftPosition = 0;
     let counter = 0;
     $('#slider ul').css('width', totalWidth);
     
