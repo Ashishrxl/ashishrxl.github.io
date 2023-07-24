@@ -12,8 +12,8 @@ $(window).on('load', function(){
             $('#slider ul').clone().appendTo('#slider');
             $('#slider ul').last().css('left', imageWidth + 'px');
             leftPosition = -totalWidth;
-            $('#slider ul').last().animate({left:0}, 700, 'easeInQuad');
-            $('#slider ul').first().animate({left: leftPosition}, 700, 'easeInQuad', function(){
+            $('#slider ul').last().animate({left:0}, 700, "easeInQuad");
+            $('#slider ul').first().animate({left: leftPosition}, 700, "easeInQuad", function(){
                 $('#slider ul').first().remove();
             });
             counter = 0;
@@ -22,7 +22,7 @@ $(window).on('load', function(){
         else{
             leftPosition = -(counter * imageWidth) +'px';
             alert(leftPosition);
-            $('#slider ul').animate({left: leftPosition}, 700, 'easeInQuad');
+            $('#slider ul').animate({left: leftPosition}, 700, "easeInQuad");
 
         }
 
