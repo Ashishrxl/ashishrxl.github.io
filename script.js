@@ -1,6 +1,7 @@
 $(window).on('load', function(){
     'use strict';
     const imageCount = $('#slider ul li').length;
-    alert('hi');
+    const inageWidth = $('#slider ul li img').first().width();
+    alert(imageWidth);
 
 });
