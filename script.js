@@ -50,5 +50,6 @@ $(window).on('load', function(){
              $('#slider ul').animate({left: leftPosition}, 700, "easeInQuad"); 
   
          }    
+    });
 
 });
