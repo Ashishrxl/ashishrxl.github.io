@@ -1,55 +1,26 @@
-$(window).on('load', function(){
-    'use strict';
-    const imageCount = $('#slider ul li').length;
-    const imageWidth = $('#slider ul li img').first().width();
-    const totalWidth = (imageCount * imageWidth)+ 'px';
+window.addEventListener('load', function(){
+
+    const slideCount = document.querySelectorAll('#slider-wrapper ul li').length;
+    const slideWidth = document.querySelector('#slider-wrapper').offsetWidth;
+    const totalWidth = slideCount * slideWidth + 'px';
+    const  slider = document.querySelector('#slider-wrapper ul');
+    const next = document.getElementById('next');
+    const previous = document.getElementById('prev');
     let leftPosition = 0;
     let counter = 0;
-    $('#slider ul').css('width', totalWidth);
-    
-    $('#next').click(function(){
+    slider.style.width = totalWidth;
+
+    next.addEventListener('click', function(evt){
+        evt.preventDefault();
         counter++;
-        if(counter == imageCount){
-            $('#slider ul').clone().appendTo('#slider');
-            $('#slider ul').last().css('left', imageWidth + 'px');
-            leftPosition = `-${totalWidth}`;
-            $('#slider ul').last().animate({left:0}, 700, "easeInQuad");
-            $('#slider ul').first().animate({left: leftPosition}, 700, "easeInQuad", function(){
-                $('#slider ul').first().remove();
-            });
+        if(counter == slideCount){
             counter = 0;
-
+            leftPosition = 0;
+            slider.style.left = leftPosition;
+        }else {
+            leftPosition = `-${counter * slideWidth}px`;
+            slider.style.left = leftPosition;
         }
-        else{
-            leftPosition = `-${counter * imageWidth}px`;
-            
-            $('#slider ul').animate({left: leftPosition}, 700, "easeInQuad");
-
-        }
-
-    });
-
-
-    $('#previous').click(function(){ 
-         counter--; 
-         if(counter < 0){ 
-             counter = imageCount - 1;
-             $('#slider ul').clone().appendTo('#slider'); 
-             $('#slider ul').last().css('left', `-${totalWidth}`); 
-             leftPosition = `-${counter * imageWidth}`; 
-             $('#slider ul').last().animate({left: leftPosition}, 700, "easeInQuad"); 
-             $('#slider ul').first().animate({left: imageWidth + 'px'}, 700, "easeInQuad", function(){ 
-                 $('#slider ul').first().remove(); 
-             }); 
-            
-  
-         } 
-         else{ 
-             leftPosition = `-${counter * imageWidth}px`; 
-  
-             $('#slider ul').animate({left: leftPosition}, 700, "easeInQuad"); 
-  
-         }    
     });
 
 });
