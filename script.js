@@ -17,5 +17,11 @@ window.addEventListener('load', function(){
         leftPosition = `-${counter * slideWidth}px;
         slider.style.left = leftPosition;
     });
-
+    previous.addEventListener('click', function(evt){
+        evt.preventDefault();
+        counter--;
+        if(counter < 0){counter = slideCount - 1;}
+        leftPosition = `-${counter * slideWidth}px`;
+        slider.style.left = leftPosition;
+    });
 });
