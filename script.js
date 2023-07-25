@@ -14,7 +14,7 @@ window.addEventListener('load', function(){
         evt.preventDefault();
         counter++;
         if(counter == slideCount){counter = 0;}
-        leftPosition = `-${counter * slideWidth}px;
+        leftPosition = `-${counter * slideWidth}px`;
         slider.style.left = leftPosition;
     });
     previous.addEventListener('click', function(evt){
