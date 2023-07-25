@@ -13,14 +13,9 @@ window.addEventListener('load', function(){
     next.addEventListener('click', function(evt){
         evt.preventDefault();
         counter++;
-        if(counter == slideCount){
-            counter = 0;
-            leftPosition = 0;
-            slider.style.left = leftPosition;
-        }else {
-            leftPosition = `-${counter * slideWidth}px`;
-            slider.style.left = leftPosition;
-        }
+        if(counter == slideCount){counter = 0;}
+        leftPosition = `-${counter * slideWidth}px;
+        slider.style.left = leftPosition;
     });
 
 });
