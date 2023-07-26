@@ -6,7 +6,7 @@ $(window).on('load', function(){
     let leftPosition = 0;
     let counter = 0;
     $('#slider ul').css('width', totalWidth);
-    setInterval(slider, 3000);
+    let mySlider = setInterval(slider, 3000);
 
     function slider(){
         counter++;
@@ -29,5 +29,14 @@ $(window).on('load', function(){
         }
 
     }
+    document.getElementById('slider').addEventListener('mouseover', function(){
+    clearInterval(mySlider);
 
+    });
+
+    
+document.getElementById('slider').addEventListener('mouseover', function(){
+    mySlider = setInterval(slider, 3000);
+
+    });
 });
