@@ -35,7 +35,7 @@ $(window).on('load', function(){
     });
 
     
-document.getElementById('slider').addEventListener('mouseover', function(){
+document.getElementById('slider').addEventListener('mouseout', function(){
     mySlider = setInterval(slider, 3000);
 
     });
