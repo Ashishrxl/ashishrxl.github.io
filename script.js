@@ -13,7 +13,8 @@
                     });
                 }, 7000);
 
-            }else{
+            }
+            else{
                 setTimeout(function(){
                     $('#container p:nth-child(${counter})').fadeOut(2000, function(){
                             counter++;
