@@ -2,8 +2,7 @@
 (function(){
     "use strict";
     let counter = 1;
-   
-    contentRotator();
+  
     function contentRotator(){
         $('#container p:nth-child(${counter})').fadeIn(2000, function(){
             alert('hi');
@@ -27,8 +26,5 @@
             }
         });
     }
-   
-	
-	
-
+    contentRotator();
 }());
