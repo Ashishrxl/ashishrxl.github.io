@@ -14,7 +14,7 @@ border: 2px solid #ccc;
 #container p { display:none; }
 
 /*
-/********** Bill's resets **********/
+
 
 h1, h2, h3, p, ul, ol {
 	margin: 0;
@@ -29,7 +29,7 @@ a { text-decoration:none;}
 
 * { box-sizing: border-box; }
 
-/************** End CSS RESET ****************/
+
 
 
 body { font-family: 'Gentium Basic', serif; color:#333; }
@@ -62,7 +62,7 @@ footer {
 	background: #E8E8E8;
 }
 
-/************* Typography ************/
+
 
 h1, h2{ 
 	font-family: 'Oswald', sans-serif;
@@ -82,7 +82,7 @@ footer p {
 }
 
 
-/**************** Media Queries ****************/
+
 
 @media only screen and (min-width: 600px) {
 	
