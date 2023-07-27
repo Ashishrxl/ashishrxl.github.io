@@ -3,6 +3,7 @@
     "use strict";
     let counter = 1;
     function contentRotator(){
+        alert('hi');
         $('#container p:nth-child(${counter})').fadeIn(2000, function(){
             if( $(this).is('#container p:last-child')){
                 setTimeout (function(){
