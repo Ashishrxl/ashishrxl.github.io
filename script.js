@@ -1,7 +1,6 @@
 
 (function(){
     "use strict";
-    alert('hello');
     let counter = 1;
     function contentRotator(){
         alert('hi');
