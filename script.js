@@ -2,6 +2,7 @@
 (function(){
     "use strict";
     let counter = 1;
+    $('#container p:nth-child(${counter})).fadeIn(2000);
     contentRotator();
     function contentRotator(){
         $('#container p:nth-child(${counter})').fadeIn(2000, function(){
