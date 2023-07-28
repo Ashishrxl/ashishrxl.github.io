@@ -5,7 +5,7 @@
   
     function contentRotator(){
         alert('hello');
-        $('#container p:nth-child(${counter})').fadeIn(2000, function(){
+        $(`#container p:nth-child(${counter})`).fadeIn(2000, function(){
             alert('hi');
             if( $(this).is('#container p:last-child')){
                 setTimeout(function(){
@@ -18,7 +18,7 @@
             }
             else{
                 setTimeout(function(){
-                    $('#container p:nth-child(${counter})').fadeOut(2000, function(){
+                    $(`#container p:nth-child(${counter})`).fadeOut(2000, function(){
                             counter++;
                             contentRotator();
                     });
