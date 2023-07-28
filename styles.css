@@ -82,13 +82,13 @@ footer p {
 }
 
 .flexslider{
- margin: 0 20px;
- border:none;
- border-radius:0;
+    margin: 0 20px;
+    border:none;
+    border-radius:0;
 }
 
 .flex-control-paging li a.flex-active{
- background:#b040205
+    background:#b040205
 }
 
 
