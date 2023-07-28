@@ -32,7 +32,7 @@
 
 (function(){
     "use strict";
-    $(window).load(function(){
+    $(window).on('load', function(){
         $('.flexslider').flexslider();
 
     });
