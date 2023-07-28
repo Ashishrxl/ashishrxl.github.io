@@ -81,6 +81,15 @@ footer p {
 	text-align: center;
 }
 
+.flexslider{
+ margin: 0 20px;
+ border:none;
+ border-radius:0;
+}
+
+.flex-control-paging li a.flex-active{
+ background:#b040205
+}
 
 
 
