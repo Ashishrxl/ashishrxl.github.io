@@ -12,15 +12,32 @@ $('nav ul li a').click(function(){
 });
 
 $(window).on('load', function(){
+    var allLinks = $('nav ul li a');
     var posts = $('section');
     var pageTop;
     var postPos;
+    var counter = 0;
+    var prevCounter = 0;
+    var postTops =[];
+    post.each(function(){
+        postTops.push(Math.floor($(this).offset().top));
+
+    });
     $(window).scroll(function(){
-        postPos = $(posts[0]).offset().top;
-        pageTop = $(window).scrollTop();
-        alert(`${pageTop} and ${postPos}`);
-
-
+        pageTop = $(window).scrollTop() + 210;
+        if(pageTop > postTops[counter+1]){
+            counter++;
+            alert('scrolling down');
+        }else if(counter > 0 && pagetop < postTops[counter]){
+        counter--;
+        alert('scrolling up');
+        }
+        if (counter != prevCounter){
+            $(allLinks).removeAttr('class');
+            $('nav ul li a').eq(counter).addClass('selected');
+            prevCounter = counter;
+            alert('no scrolling');
+        }
     });
 
 });
