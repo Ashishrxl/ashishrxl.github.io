@@ -18,6 +18,7 @@ $(window).on('load', function(){
     var postPos;
     var counter = 0;
     var prevCounter = 0;
+    var doneResizing;
     var postTops =[];
     posts.each(function(){
         postTops.push(Math.floor($(this).offset().top));
@@ -32,12 +33,22 @@ $(window).on('load', function(){
             counter--;
             alert('scrolling up');
         }
-        else if (counter != prevCounter){
+        if (counter != prevCounter){
             $(allLinks).removeAttr('class');
             $('nav ul li a').eq(counter).addClass('selected');
             prevCounter = counter;
-            alert('no scrolling');
         }
+    });
+
+    $(window).on('resize', function(){
+        clearTimeout(doneResizing);
+        doneResizing = setTimeout(function(){
+            postTops=[];
+            posts.each(function(){
+                postTops.push(Math.floor($(this).offset().top));
+            });
+            alert('done resizing');
+        }, 500);
     });
 
 });
