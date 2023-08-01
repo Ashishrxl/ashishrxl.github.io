@@ -29,8 +29,8 @@ $(window).on('load', function(){
             counter++;
             alert('scrolling down');
         }else if(counter > 0 && pagetop < postTops[counter]){
-        counter--;
-        alert('scrolling up');
+            counter--;
+            alert('scrolling up');
         }
         if (counter != prevCounter){
             $(allLinks).removeAttr('class');
