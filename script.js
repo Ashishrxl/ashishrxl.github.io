@@ -32,7 +32,7 @@ $(window).on('load', function(){
             counter--;
             alert('scrolling up');
         }
-        if (counter != prevCounter){
+        else if (counter != prevCounter){
             $(allLinks).removeAttr('class');
             $('nav ul li a').eq(counter).addClass('selected');
             prevCounter = counter;
