@@ -1,4 +1,4 @@
-/*
+
 $('nav ul li a').click(function(){
     var thisSection = $(this).attr('href');
     var thisLink = $(this);
@@ -54,7 +54,7 @@ $(window).on('load', function(){
 
 });
 
-*/
+/*
 $(window).on('load', function(){
   $('.flexslider').flexslider(
     {
@@ -69,6 +69,7 @@ $(window).on('load', function(){
     }
   );
 });
+*/
 
 
 
