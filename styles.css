@@ -196,14 +196,14 @@ footer p {
 }
 
 .flexslider{
-    margin: 0 20px;
-    border: none;
-    border-radius: 0;
+      margin: 0 20px;
+      border: none;
+      border-radius: 0;
 
 }
 
 .flex-control-paging li a flex-active {
-    background: #b40205;
+      background: #b40205;
 
 }
 
@@ -214,18 +214,18 @@ footer p {
 .slide5{ background: url(slides/kitten05.jpg) top left no-repeat;}
 
 .slides li div {
-	width: 100%;
-	position: relative;
-	padding-bottom: 50%;
-	background-size: cover;
+    width: 100%;
+	   position: relative;
+	   padding-bottom: 50%;
+	   background-size: cover;
 
 }
 
 .slides li div h2 {
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	color: #b40205;
+    position: absolute;
+	   top: 20px;
+	   left: 20px;
+	   color: #b40205;
 }
 
 .cta {
@@ -261,12 +261,10 @@ footer p {
 	main { display: flex; }
 
 	.column { flex: 1; }
-
     .cta{
         height: 25vw;
         width: 25vw;
         font-size: 3vw;
-
     }
 
 }
@@ -283,7 +281,6 @@ footer p {
         height: 150px;
         width:150px;
         font-size: 24px;
-
     }
 }
 
