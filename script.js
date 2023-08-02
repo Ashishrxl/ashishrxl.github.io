@@ -29,10 +29,8 @@ $(window).on('load', function(){
         pageTop = $(window).scrollTop() + 210;
         if(pageTop > postTops[counter+1]){
             counter++;
-            alert('scrolling down');
         }else if(counter > 0 && pagetop < postTops[counter]){
             counter--;
-            alert('scrolling up');
         }
         if (counter != prevCounter){
             $(allLinks).removeAttr('class');
@@ -48,7 +46,6 @@ $(window).on('load', function(){
             posts.each(function(){
                 postTops.push(Math.floor($(this).offset().top));
             });
-            alert('done resizing');
         }, 500);
     });
 
