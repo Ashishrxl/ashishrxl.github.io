@@ -195,6 +195,18 @@ footer p {
 	text-align: center;
 }
 
+.flexslider{
+    margin: 0 20px;
+    border: none;
+    border-radius: 0;
+
+}
+
+.flex-control-paging li a flex-active {
+    background: #b40205;
+
+}
+
 .slide1{ background: url(slides/kitten01.jpg) top left no-repeat;}
 .slide2{ background: url(slides/kitten02.jpg) top left no-repeat;}
 .slide3{ background: url(slides/kitten03.jpg) top left no-repeat;}
@@ -214,6 +226,32 @@ footer p {
 	top: 20px;
 	left: 20px;
 	color: #b40205;
+}
+
+.cta {
+    display: flex;
+    align-items: center;
+    height: 25vw;
+    width: 25vw;
+    position: absolute;
+    right: 20px;
+    bottom: 100%;
+    background: rgba(123, 157, 179, .3);
+    border-radius: 50%;
+    border: 5px solid #084d64;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    font-size: 4vw;
+    color: #03425b
+
+
+}
+
+.light{
+    color: #ededed;
+
 }
 
 
