@@ -63,9 +63,9 @@ $(window).on('load', function(){
       direction: 'vertical',
       reverse: true,
       pauseOnHover: true,
-        before: function(){$('.cta').css('bottom', '100%')},
-        start: function(){$('.cta').animate({bottom: '5%'},3000, 'easeOutElastic');},
-        after: function(){$('.cta').animate({bottom: '5%'}, 3000, 'easeOutElastic');}
+      before: function(){$('.cta').css('bottom', '100%')},
+      start: function(){$('.cta').animate({bottom: '5%'},3000, 'easeOutElastic');},
+      after: function(){$('.cta').animate({bottom: '5%'}, 3000, 'easeOutElastic');}
     }
   );
 });
