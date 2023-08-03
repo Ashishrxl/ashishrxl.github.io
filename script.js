@@ -20,7 +20,7 @@ $(window).on('load', function(){
     var counter = 0;
     var postTops =[];
     posts.each(function(){
-        postTops.push($(this).offset().top);
+        postTops.push(Math.floor($(this).offset().top));
 
     });
     alert(postTops);
