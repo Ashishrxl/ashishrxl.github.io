@@ -22,33 +22,6 @@ $(window).on('load', function(){
     var prevCounter = 0;
     var doneResizing;
     var postTops =[];
-    posts.each(function(){
-        postTops.push(Math.floor($(this).offset().top));
-
-    });
-    $(window).scroll(function(){
-        pageTop = $(window).scrollTop() + 210;
-        if(pageTop > postTops[counter+1]){
-            counter++;
-        }else if(counter > 0 && pagetop < postTops[counter]){
-            counter--;
-        }
-        if (counter != prevCounter){
-            $(allLinks).removeAttr('class');
-            $('nav ul li a').eq(counter).addClass('selected');
-            prevCounter = counter;
-        }
-    });
-
-    $(window).on('resize', function(){
-        clearTimeout(doneResizing);
-        doneResizing = setTimeout(function(){
-            postTops=[];
-            posts.each(function(){
-                postTops.push(Math.floor($(this).offset().top));
-            });
-        }, 500);
-    });
 
 });
 
