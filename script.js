@@ -14,14 +14,20 @@ $('nav ul li a').click(function(){
 */
 
 $(window).on('load', function(){
-    var allLinks = $('nav ul li a');
     var posts = $('section');
     var pageTop;
     var postPos;
     var counter = 0;
-    var prevCounter = 0;
-    var doneResizing;
     var postTops =[];
+    posts.each(function(){
+        postTops.push($(this).offset().top);
+
+    });
+    alert(postTops);
+    $(window).scroll(function(){
+        
+
+    });
 
 });
 
