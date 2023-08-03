@@ -1,4 +1,4 @@
-
+/*
 $('nav ul li a').click(function(){
     var thisSection = $(this).attr('href');
     var thisLink = $(this);
@@ -11,6 +11,7 @@ $('nav ul li a').click(function(){
     });
 
 });
+*/
 
 $(window).on('load', function(){
     var allLinks = $('nav ul li a');
