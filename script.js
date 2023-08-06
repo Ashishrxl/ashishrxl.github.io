@@ -14,10 +14,12 @@ $('nav ul li a').click(function(){
 */
 
 $(window).on('load', function(){
+    var allLinks = $('nav ul li a');
     var posts = $('section');
     var pageTop;
     var postPos;
     var counter = 0;
+    var prevCounter = 0;
     var postTops =[];
     posts.each(function(){
         postTops.push(Math.floor($(this).offset().top));
@@ -34,6 +36,12 @@ $(window).on('load', function(){
             counter--;
             alert(`Scrolling up! ${counter+1}`);
         }
+        if(counter != prevCounter){
+            $(allLinks).removeAttr('class');
+            $('nav ul li a').eq(counter).addClass('selected');
+            prevCounter = counter;
+        }
+        
 
     });
 
