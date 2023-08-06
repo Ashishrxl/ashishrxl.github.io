@@ -28,11 +28,11 @@ $(window).on('load', function(){
         pageTop = $(window).scrollTop()+210;
         if(pageTop > postTops[counter+1]){
             counter++;
-            alert(`Scrolling down! ${counter}`);
+            alert(`Scrolling down! ${counter+1}`);
         }
         else if(counter>0 && pageTop<postTops[counter]){
             counter--;
-            alert(`Scrolling up! ${counter}`);
+            alert(`Scrolling up! ${counter+1}`);
         }
 
     });
