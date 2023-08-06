@@ -28,9 +28,12 @@ $(window).on('load', function(){
         pageTop = $(window).scrollTop()+210;
         if(pageTop > postTops[counter+1]){
             counter++;
-            alert('Scrolling down!');
+            alert(`Scrolling down! ${counter}`);
         }
-        
+        else if(counter>0 && pageTop<postTops[counter]){
+            counter--;
+            alert(`Scrolling up! ${counter}`);
+        }
 
     });
 
