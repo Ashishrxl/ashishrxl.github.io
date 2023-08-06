@@ -4,10 +4,8 @@ $('nav ul li a').click(function(){
     var thisLink = $(this);
     $('html, body').stop().animate({
         scrollTop: $(thisSection).offset.top -200
-    }, 800, 'easeOutCirc', function(){
-        $('nav ul li a').removeAttr('class');
-        $(thisLink).addClass('selected');
-
+    }, 800, 'easeOutCirc');
+    return false;
     });
 
 });
