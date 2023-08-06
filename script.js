@@ -23,8 +23,13 @@ $(window).on('load', function(){
         postTops.push(Math.floor($(this).offset().top));
 
     });
-    alert(postTops);
+    //alert(postTops);
     $(window).scroll(function(){
+        pageTop = $(window).scrollTop()+210;
+        if(pageTop > postTops[counter+1]){
+            counter++;
+            alert('Scrolling down!');
+        }
         
 
     });
