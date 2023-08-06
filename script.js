@@ -3,10 +3,10 @@ $('nav ul li a').click(function(){
     var thisSection = $(this).attr('href');
     var thisLink = $(this);
     $('html, body').stop().animate({
-        scrollTop: $(thisSection).offset.top -200
+        scrollTop: $(thisSection).offset().top -200
     }, 800, 'easeOutCirc');
     return false;
-    });
+
 
 });
 $(window).on('load', function(){
