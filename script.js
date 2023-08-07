@@ -9,6 +9,23 @@ function smoothScroll(event){
  
     const originalTop = Math.floor(targetAnchor.getBoundingClientRect().top) - 200;
     window.scrollBy({top:originalTop, left:0, behaviour:'smooth'});
-    alert(originalTop);
     
 }
+
+window.addEventListener('load', function(){
+    const posts = document.querySelectorAll('section');
+    let postTops = [];
+    let pagetop;
+    let counter = 1;
+    let prevCounter = 1;
+    let doneResizing;
+    posts.forEach(function(post)(){
+        postTops.push(Math.floor(post.getBoundingClientRect().top) + window.pageYOffset);
+
+    });
+    window.addEventListener('scroll', function(){
+        pagetop = window.pageYOffset;
+        alert(pagetop);
+    });
+    
+});
