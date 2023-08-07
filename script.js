@@ -7,6 +7,8 @@ function smoothScroll(event){
     const targetID = event.target.getAttribute('href');
     const targetAnchor = document.querySelector(targetID);
  
-    alert(targetAnchor.getBoundingClientRect().top);
+    const originalTop = Math.floor(targetAnchor.getBoundingClientRect().top) - 200;
+    window.scrollBy({top:originalTop, left:0, behaviour:'smooth'});
+    alert(originalTop);
     
 }
