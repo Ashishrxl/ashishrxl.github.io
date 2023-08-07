@@ -6,5 +6,7 @@ function smoothScroll(event){
     event.preventDefault();
     const targetID = event.target.getAttribute('href');
     const targetAnchor = document.querySelector(targetID);
-    alert(targetAnchor.getBoundingClientRect().top);
+ 
+//alert(targetAnchor.getBoundingClientRect().top);
+alert('hi');
 }
