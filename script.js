@@ -52,7 +52,7 @@ window.addEventListener('load', function(){
     function resetPagePosition(){
         postTops = [];
         posts.forEach(function(post){
-            postTops.push(Math floor(post.getBoundingClientRect().top) + window.pageYOffset);
+            postTops.push(Math.floor(post.getBoundingClientRect().top) + window.pageYOffset);
         });
         const pagePosition = window.pageYOffset + 250;
         counter = 0;
