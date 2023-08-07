@@ -1,6 +1,6 @@
 const navLinks = document.querySelectorAll('nav ul li a');
 navLinks.forEach(function(eachLink){
-    eachLink.addEventListener('click', smoothScroll());
+    eachLink.addEventListener('click', smoothScroll(eachLink));
 });
 function smoothScroll(event){
     event.preventDefault();
