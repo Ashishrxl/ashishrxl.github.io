@@ -28,7 +28,7 @@ window.addEventListener('load', function(){
         if(pagetop > postTops[counter]){
             counter++;
             alert(`scrolling down!${counter}`);
-        } else if(counter > 1 && pagetop < postTops[counter]){
+        } else if(counter > 1 && pagetop < postTops[counter-1]){
             counter--;
             alert(`scrolling up!${counter}`);
         }
