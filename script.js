@@ -32,6 +32,14 @@ window.addEventListener('load', function(){
             counter--;
             alert(`scrolling up!${counter}`);
         }
+        if(counter != prevCounter){
+            navLinks.forEach(function(eachLink){
+                eachLink.removeAttribute('class');
+            });
+            const thisLink = document.querySelector('nav ul li:nth-child(${counter}) a');
+            thisLink.className = 'selected';
+            prevCounter = counter;
+        }
     });
     
 });
