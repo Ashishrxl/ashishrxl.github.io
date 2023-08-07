@@ -27,9 +27,11 @@ window.addEventListener('load', function(){
         pagetop = window.pageYOffset + 250;
         if(pagetop > postTops[counter]){
             counter++;
+            prevCounter = counter;
             alert(`scrolling down!${counter}`);
         } else if(counter > 1 && pagetop < postTops[counter-1]){
             counter--;
+            prevCounter = counter;
             alert(`scrolling up!${counter}`);
         }
         if(counter != prevCounter){
