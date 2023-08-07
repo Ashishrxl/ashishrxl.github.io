@@ -19,7 +19,7 @@ window.addEventListener('load', function(){
     let counter = 1;
     let prevCounter = 1;
     let doneResizing;
-    posts.forEach(function(post)(){
+    posts.forEach(function(post){
         postTops.push(Math.floor(post.getBoundingClientRect().top) + window.pageYOffset);
 
     });
