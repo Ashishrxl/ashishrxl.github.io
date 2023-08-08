@@ -39,7 +39,7 @@ window.addEventListener('load', function(){
             navLinks.forEach(function(eachLink){
                 eachLink.removeAttribute('class');
             });
-            const thisLink = document.querySelector('nav ul li:nth-child(${counter}) a');
+            const thisLink = document.querySelector(`nav ul li:nth-child(${counter}) a`);
             thisLink.className = 'selected';
             prevCounter = counter;
         }
