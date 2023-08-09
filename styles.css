@@ -153,7 +153,7 @@ header nav ul li a {
 }
 
 .slide1 {
-	background-image: url("images/slider/slider01-small.jpg");
+	background-image: url("slider01-small.jpg");
 }
 
 #slider .cta {
@@ -447,7 +447,7 @@ footer article a {
 @media only screen and (min-width: 760px) {
 	/* slider styles */
 	#slider .cta { width: 50%; right:0; }
-	.slide1 { background-image: url("images/slider/slider01-medium.jpg"); }
+	.slide1 { background-image: url("slider01-medium.jpg"); }
 	#overview { display: flex;}
 
 	/* overview styles */
@@ -533,7 +533,7 @@ footer article a {
 
 	/* Slider styles */
 	#slider .cta { width: 25%; padding: 50px;}
-	.slide1 { background-image: url("images/slider/slider01-large.jpg"); }
+	.slide1 { background-image: url("slider01-large.jpg"); }
 	/* Overview styles */
 	#overview > article { flex: 1; margin-right: 50px;}
 	#overview > section { flex: 2; padding-top: 3em; }
