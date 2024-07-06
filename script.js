@@ -10,7 +10,7 @@ async function getData() {
     horsepower: car.Horsepower,
   }))
   .filter(car => (car.mpg != null && car.horsepower != null));
-
+  console.log(cleaned);
   return cleaned;
 }
 
@@ -30,7 +30,7 @@ async function run() {
       yLabel: 'MPG',
       height: 300
     });
-  console.log(cleaned);
+  
 
       // Create the model
 const model = createModel();
