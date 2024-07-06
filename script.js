@@ -29,8 +29,7 @@ async function run() {
       xLabel: 'Horsepower',
       yLabel: 'MPG',
       height: 300
-    }
-  );
+    });
 
       // Create the model
 const model = createModel();
