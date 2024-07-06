@@ -30,6 +30,7 @@ async function run() {
       yLabel: 'MPG',
       height: 300
     }
+  );
 
       // Create the model
 const model = createModel();
@@ -45,7 +46,7 @@ console.log('Done Training');
     // Make some predictions using the model and compare them to the
 // original data
 testModel(model, data, tensorData);
-  );
+  
 
   // More code will be added below
 
