@@ -115,7 +115,7 @@ function convertToTensor(data) {
     metrics: ['mse'],
   });
 
-  const batchSize = 64;
+  const batchSize = 32;
   const epochs = 100;
 
   return await model.fit(inputs, labels, {
