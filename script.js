@@ -30,6 +30,7 @@ async function run() {
       yLabel: 'MPG',
       height: 300
     });
+  console.log(cleaned);
 
       // Create the model
 const model = createModel();
