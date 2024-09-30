@@ -1,4 +1,4 @@
-package com.example.basicscodelab
+package com.example.codelab
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,11 +30,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -47,8 +47,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.icons.filled.Spa
-import androidx.compose.material3.Scaffold
 
 
 class MainActivity : ComponentActivity() {
@@ -85,7 +83,7 @@ fun SearchBar(
         modifier = modifier
             .padding(10.dp)
             .fillMaxWidth()
-           //.heightIn(min = 10.dp)
+        //.heightIn(min = 10.dp)
 
 
     )
@@ -225,7 +223,7 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
         NavigationBarItem(
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Spa,
+                    imageVector = Icons.Default.AccountCircle,
                     contentDescription = null
                 )
             },
@@ -290,4 +288,32 @@ private data class DrawableStringPair(
     @StringRes val text: Int
 )
 
+/*
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+@Composable
+fun MySootheApp(windowSize: WindowSizeClass) {
+   when (windowSize.widthSizeClass) {
+       WindowWidthSizeClass.Compact -> {
+           MySootheAppPortrait()
+       }
+       WindowWidthSizeClass.Expanded -> {
+           MySootheAppLandscape()
+       }
+   }
+}
 
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+
+class MainActivity : ComponentActivity() {
+   @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContent {
+           val windowSizeClass = calculateWindowSizeClass(this)
+           MySootheApp(windowSizeClass)
+       }
+   }
+}
+ */
