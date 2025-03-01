@@ -50,7 +50,7 @@
         // We assume the first result contains our generated text.
         const sqlQuery = (data && Array.isArray(data) && data.length > 0 && data[0].generated_text)
           ? data[0].generated_text.trim()
-          : "Error generating query.";
+          : "Error generating query. " + error.message;
 
         document.getElementById("sqlResult").innerText = sqlQuery;
       } catch (error) {
