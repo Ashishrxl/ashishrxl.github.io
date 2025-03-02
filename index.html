@@ -1,210 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Invoice Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
-        h2 {
-            text-align: right;
-            margin-right: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        .form-group label {
-            width: 120px;
-            font-weight: bold;
-        }
-        .form-group input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: white;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        #invoice {
-            display: none;
-        }
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        #grandTotal {
-            font-weight: bold;
-            font-size: 1.5em;
-        }
-        #lessAmount {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-/*
-    <?php require 'getdata.php'; 
-
-        $sql1 = "SELECT distinct Item FROM Billdetails"; 
-        $result = $conn->query($sql1);
-
-        $items = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $items[] = $row['Item'];
-            }
-        }
-        $conn->close();
-    ?>
-*/
-    <h1>Invoice Generator</h1>
-
-    <form id="itemForm">
-        <div class="form-group">
-            <label for="itemName">Item Name:</label>
-            <input type="text" id="itemName" name="itemName" required>
-        </div>
-        <div class="form-group">
-            <label for="itemRate">Rate:</label>
-            <input type="number" id="itemRate" name="itemRate" step="0.01" required>
-        </div>
-        <div class="form-group">
-            <label for="itemQuantity">Quantity:</label>
-            <input type="number" id="itemQuantity" name="itemQuantity" required>
-        </div>
-        <button type="button" onclick="addItem()">Add Item</button>
-    </form>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Rate</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody id="itemTable">
-        </tbody>
-    </table>
-
-    <div class="form-group">
-        <label for="lessAmount">Less:</label>
-        <input type="number" id="lessAmount" name="lessAmount" step="0.01" value="0" oninput="updateTable()">
-    </div>
-
-    <h2>Total: <span id="grandTotal">0.00</span></h2>
-
-    <form method="POST" action="invoice.php">
-        <input type="hidden" id="invoiceData" name="invoiceData">
-        <button type="submit">Generate Invoice</button>
-    </form>
-
-    <script>
-       // const jsArray = <?php echo json_encode($items); ?>;
-     //autocomplete(document.getElementById("itemName"), jsArray);
-        let items = [];
-
-        function addItem() {
-            const itemName = document.getElementById('itemName').value;
-            const itemRate = parseFloat(document.getElementById('itemRate').value);
-            const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
-
-            if (itemName && itemRate > 0 && itemQuantity > 0) {
-                const itemTotal = itemRate * itemQuantity;
-
-                items.push({ itemName, itemRate, itemQuantity, itemTotal });
-
-                updateTable();
-
-                document.getElementById('itemForm').reset();
-            } else {
-                alert('Please enter valid details');
-            }
-        }
-
-        function updateTable() {
-            const tableBody = document.getElementById('itemTable');
-            tableBody.innerHTML = '';
-
-            let grandTotal = 0;
-
-            items.forEach((item) => {
-                grandTotal += item.itemTotal;
-
-                const row = `<tr>
-                    <td>${item.itemName}</td>
-                    <td>${item.itemRate.toFixed(2)}</td>
-                    <td>${item.itemQuantity}</td>
-                    <td>${item.itemTotal.toFixed(2)}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-
-            let lessAmount = parseFloat(document.getElementById('lessAmount').value) || 0;
-
-            if (lessAmount > grandTotal) {
-                alert("Less amount cannot be greater than the total!");
-                lessAmount = 0;
-                document.getElementById('lessAmount').value = 0;
-            }
-
-            grandTotal -= lessAmount;
-
-            document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
-
-            document.getElementById('invoiceData').value = JSON.stringify({ items, lessAmount });
-        }
-    </script>
-</body>
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <script src="script.js"></script>  
+    <title>Invoice Generator</title>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            margin: 20px;  
+            background-color: #f9f9f9;  
+            color: #333;  
+        }  
+        h1 {  
+            text-align: center;  
+            color: #4CAF50;  
+        }  
+        h2 {  
+            text-align: right;  
+            margin-right: 20px;  
+        }  
+        .form-group {  
+            margin-bottom: 15px;  
+            display: flex;  
+            align-items: center;  
+        }  
+        .form-group label {  
+            width: 120px;  
+            font-weight: bold;  
+        }  
+        .form-group input {  
+            flex: 1;  
+            padding: 8px;  
+            border: 1px solid #ccc;  
+            border-radius: 4px;  
+        }  
+        button {  
+            background-color: #4CAF50;  
+            color: white;  
+            border: none;  
+            padding: 10px 15px;  
+            border-radius: 4px;  
+            cursor: pointer;  
+            font-size: 16px;  
+            margin-right: 5px;  
+        }  
+        button:hover {  
+            background-color: #45a049;  
+        }  
+        .remove-btn {  
+            background-color: #e74c3c;  
+        }  
+        .remove-btn:hover {  
+            background-color: #c0392b;  
+        }  
+        table {  
+            width: 100%;  
+            border-collapse: collapse;  
+            margin-top: 20px;  
+            background-color: white;  
+        }  
+        table, th, td {  
+            border: 1px solid #ddd;  
+        }  
+        th, td {  
+            padding: 12px;  
+            text-align: center;  
+        }  
+        th {  
+            background-color: #f4f4f4;  
+            color: #333;  
+        }  
+        tr:nth-child(even) {  
+            background-color: #f9f9f9;  
+        }  
+        tr:hover {  
+            background-color: #f1f1f1;  
+        }  
+        #invoice {  
+            display: none;  
+        }  
+        form {  
+            max-width: 600px;  
+            margin: 0 auto;  
+            padding: 20px;  
+            background-color: white;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+            border-radius: 8px;  
+        }  
+        #grandTotal {  
+            font-weight: bold;  
+            font-size: 1.5em;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <?php require 'getdata.php';   
+  
+        $sql1 = "SELECT distinct Item FROM Billdetails"; // Adjust limit as needed  
+        $result = $conn->query($sql1);  
+  
+        $items = [];  
+        if ($result->num_rows > 0) {  
+            while ($row = $result->fetch_assoc()) {  
+                $items[] = $row['Item'];  
+            }  
+        }  
+        $conn->close();  
+  
+    ?>  
+    <h1>Invoice Generator</h1>  
+  
+    <form id="itemForm">  
+        <div class="form-group">  
+            <label for="itemName">Item Name:</label>  
+            <input type="text" id="itemName" name="itemName" required>  
+        </div>  
+        <div class="form-group">  
+            <label for="itemRate">Rate:</label>  
+            <input type="number" id="itemRate" name="itemRate" step="0.01" required>  
+        </div>  
+        <div class="form-group">  
+            <label for="itemQuantity">Quantity:</label>  
+            <input type="number" id="itemQuantity" name="itemQuantity" required>  
+        </div>  
+        <button type="button" onclick="addItem()">Add Item</button>  
+    </form>  
+  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>Item Name</th>  
+                <th>Rate</th>  
+                <th>Quantity</th>  
+                <th>Total</th>  
+                <th>Action</th>  
+            </tr>  
+        </thead>  
+        <tbody id="itemTable">  
+        </tbody>  
+    </table>  
+  
+    <h2>Total: <span id="grandTotal">0.00</span></h2>  
+  
+    <form method="POST" action="invoice.php">  
+        <input type="hidden" id="invoiceData" name="invoiceData">  
+        <button type="submit">Generate Invoice</button>  
+    </form>  
+  
+    <script>  
+        const jsArray = <?php echo json_encode($items); ?>;  
+        autocomplete(document.getElementById("itemName"), jsArray);  
+        let items = [];  
+  
+        function addItem() {  
+            const itemName = document.getElementById('itemName').value;  
+            const itemRate = parseFloat(document.getElementById('itemRate').value);  
+            const itemQuantity = parseInt(document.getElementById('itemQuantity').value);  
+  
+            if (itemName && itemRate > 0 && itemQuantity > 0) {  
+                const itemTotal = itemRate * itemQuantity;  
+                items.push({ itemName, itemRate, itemQuantity, itemTotal });  
+                updateTable();  
+                document.getElementById('itemForm').reset();  
+            } else {  
+                alert('Please enter valid details');  
+            }  
+        }  
+  
+        function updateTable() {  
+            const tableBody = document.getElementById('itemTable');  
+            tableBody.innerHTML = '';  
+  
+            let grandTotal = 0;  
+  
+            items.forEach((item, index) => {  
+                grandTotal += item.itemTotal;  
+  
+                const row = `<tr>  
+                    <td>${item.itemName}</td>  
+                    <td>${item.itemRate.toFixed(2)}</td>  
+                    <td>${item.itemQuantity}</td>  
+                    <td>${item.itemTotal.toFixed(2)}</td>  
+                    <td><button class="remove-btn" onclick="removeItem(${index})">Less</button></td>  
+                </tr>`;  
+                tableBody.innerHTML += row;  
+            });  
+  
+            document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);  
+            document.getElementById('invoiceData').value = JSON.stringify(items);  
+        }  
+  
+        function removeItem(index) {  
+            items.splice(index, 1);  
+            updateTable();  
+        }  
+    </script>  
+</body>  
 </html>
