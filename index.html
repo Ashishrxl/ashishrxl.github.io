@@ -3,61 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenAI API Request</title>
+    <script src="script.js"></script>
+    <title>Invoice Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        h2 {
+            text-align: right;
+            margin-right: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .form-group label {
+            width: 120px;
+            font-weight: bold;
+        }
+        .form-group input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        #invoice {
+            display: none;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        #grandTotal {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        #lessAmount {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h2>Chat with OpenAI</h2>
-    <form id="apiForm">
-        <label for="apiKey">API Key:</label>
-        <input type="text" id="apiKey" required><br><br>
+    <?php require 'getdata.php'; 
 
-        <label for="userPrompt">Enter your message:</label>
-        <input type="text" id="userPrompt" required><br><br>
+        $sql1 = "SELECT distinct Item FROM Billdetails"; 
+        $result = $conn->query($sql1);
 
-        <button type="submit">Send Request</button>
+        $items = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $items[] = $row['Item'];
+            }
+        }
+        $conn->close();
+    ?>
+    <h1>Invoice Generator</h1>
+
+    <form id="itemForm">
+        <div class="form-group">
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" name="itemName" required>
+        </div>
+        <div class="form-group">
+            <label for="itemRate">Rate:</label>
+            <input type="number" id="itemRate" name="itemRate" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="itemQuantity">Quantity:</label>
+            <input type="number" id="itemQuantity" name="itemQuantity" required>
+        </div>
+        <button type="button" onclick="addItem()">Add Item</button>
     </form>
 
-    <h3>Response:</h3>
-    <pre id="responseOutput"></pre>
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="itemTable">
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label for="lessAmount">Less:</label>
+        <input type="number" id="lessAmount" name="lessAmount" step="0.01" value="0" oninput="updateTable()">
+    </div>
+
+    <h2>Total: <span id="grandTotal">0.00</span></h2>
+
+    <form method="POST" action="invoice.php">
+        <input type="hidden" id="invoiceData" name="invoiceData">
+        <button type="submit">Generate Invoice</button>
+    </form>
 
     <script>
-        document.getElementById("apiForm").addEventListener("submit", async function(event) {
-            event.preventDefault(); // Prevent form from reloading the page
-            
-            const apiKey = document.getElementById("apiKey").value.trim();
-            const userPrompt = document.getElementById("userPrompt").value.trim();
-            const responseOutput = document.getElementById("responseOutput");
+        const jsArray = <?php echo json_encode($items); ?>;
+        autocomplete(document.getElementById("itemName"), jsArray);
+        let items = [];
 
-            if (!apiKey || !userPrompt) {
-                responseOutput.textContent = "API Key and prompt are required!";
-                return;
+        function addItem() {
+            const itemName = document.getElementById('itemName').value;
+            const itemRate = parseFloat(document.getElementById('itemRate').value);
+            const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
+
+            if (itemName && itemRate > 0 && itemQuantity > 0) {
+                const itemTotal = itemRate * itemQuantity;
+
+                items.push({ itemName, itemRate, itemQuantity, itemTotal });
+
+                updateTable();
+
+                document.getElementById('itemForm').reset();
+            } else {
+                alert('Please enter valid details');
+            }
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('itemTable');
+            tableBody.innerHTML = '';
+
+            let grandTotal = 0;
+
+            items.forEach((item) => {
+                grandTotal += item.itemTotal;
+
+                const row = `<tr>
+                    <td>${item.itemName}</td>
+                    <td>${item.itemRate.toFixed(2)}</td>
+                    <td>${item.itemQuantity}</td>
+                    <td>${item.itemTotal.toFixed(2)}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+
+            let lessAmount = parseFloat(document.getElementById('lessAmount').value) || 0;
+
+            if (lessAmount > grandTotal) {
+                alert("Less amount cannot be greater than the total!");
+                lessAmount = 0;
+                document.getElementById('lessAmount').value = 0;
             }
 
-            try {
-                const response = await fetch("https://api.openai.com/v1/completions", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-3.5-turbo",
-                        messages: [{ role: "user", content: userPrompt }]
-                    })
-                });
+            grandTotal -= lessAmount;
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    responseOutput.textContent = `Error ${response.status}: ${errorData.error?.message || "Unknown error"}`;
-                    return;
-                }
+            document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
 
-                const data = await response.json();
-                responseOutput.textContent = data.choices[0]?.message?.content || "No response from AI.";
-            } catch (error) {
-                responseOutput.textContent = "Request failed: " + error.message;
-            }
-        });
+            document.getElementById('invoiceData').value = JSON.stringify({ items, lessAmount });
+        }
     </script>
 </body>
 </html>
