@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js"></script>
+    
     <title>Invoice Generator</title>
     <style>
         body {
@@ -92,6 +92,7 @@
     </style>
 </head>
 <body>
+/*
     <?php require 'getdata.php'; 
 
         $sql1 = "SELECT distinct Item FROM Billdetails"; 
@@ -105,6 +106,7 @@
         }
         $conn->close();
     ?>
+*/
     <h1>Invoice Generator</h1>
 
     <form id="itemForm">
@@ -149,7 +151,7 @@
     </form>
 
     <script>
-        const jsArray = <?php echo json_encode($items); ?>;
+       // const jsArray = <?php echo json_encode($items); ?>;
         autocomplete(document.getElementById("itemName"), jsArray);
         let items = [];
 
