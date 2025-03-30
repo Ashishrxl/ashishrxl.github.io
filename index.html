@@ -1,62 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AI SQL Query Generator</title>
+  <title>Text to Image and Audio</title>
 </head>
 <body>
-  <h2>AI SQL Query Generator</h2>
-  <form id="queryForm">
-      <label>Enter Hugging Face API Key:</label><br>
-      <input type="password" id="apiKey" placeholder="Your Hugging Face API Key" required><br><br>
-      
-      <label>Enter Your Natural Language Query:</label><br>
-      <input type="text" id="userInput" placeholder="E.g. Show all users who registered last week" required><br><br>
-      
-      <button type="submit">Generate SQL Query</button>
-  </form>
-  <h3>Generated SQL Query:</h3>
-  <pre id="sqlResult"></pre>
+  <!-- Text input area -->
+  <textarea id="textInput" placeholder="Enter your text here" rows="4" cols="50"></textarea>
+  <br>
+  <!-- Button to process the text -->
+  <button id="submitButton">Submit</button>
+  <br><br>
+  
+  <!-- Canvas element to display the text as an image -->
+  <canvas id="textCanvas" width="500" height="200" style="border:1px solid #000"></canvas>
+  <br><br>
+  
+  <!-- Button to play the audio version of the text -->
+  <button id="playAudioButton">Play Audio</button>
 
   <script>
-    document.getElementById("queryForm").onsubmit = async function(e) {
-      e.preventDefault();
-      
-      const apiKey = document.getElementById("apiKey").value.trim();
-      const userInput = document.getElementById("userInput").value.trim();
+    const textInput = document.getElementById('textInput');
+    const submitButton = document.getElementById('submitButton');
+    const canvas = document.getElementById('textCanvas');
+    const ctx = canvas.getContext('2d');
+    const playAudioButton = document.getElementById('playAudioButton');
 
-      if (!apiKey || !userInput) {
-        document.getElementById("sqlResult").innerText = "Please enter both API key and query.";
-        return;
-      }
+    // Draw the text on the canvas when the user clicks Submit
+    submitButton.addEventListener('click', () => {
+      const text = textInput.value;
+      // Clear the canvas before drawing new text
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Set font style and text properties
+      ctx.font = '20px Arial';
+      ctx.fillStyle = 'black';
+      // Draw the text; adjust coordinates as needed for your layout
+      ctx.fillText(text, 10, 50);
+    });
 
-      document.getElementById("sqlResult").innerText = "Generating SQL query...";
-
-      try {
-        const response = await fetch("https://api-inference.huggingface.co/models/cssupport/t5-small-awesome-text-to-sql", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            // The prompt instructs the model to convert the natural language into SQL.
-            inputs: `Convert this natural language request into an SQL query: "${userInput}".`
-          })
-        });
-        
-        const data = await response.json();
-
-        // The Hugging Face Inference API for text generation returns an array of results.
-        // We assume the first result contains our generated text.
-        const sqlQuery = (data && Array.isArray(data) && data.length > 0 && data[0].generated_text)
-          ? data[0].generated_text.trim()
-          : "Error generating query.";
-
-        document.getElementById("sqlResult").innerText = sqlQuery;
-      } catch (error) {
-        document.getElementById("sqlResult").innerText = "Error: " + error.message;
-      }
-    };
+    // Convert text to speech when the user clicks Play Audio
+    playAudioButton.addEventListener('click', () => {
+      const text = textInput.value;
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    });
   </script>
 </body>
 </html>
