@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Text to Image and Audio</title>
+  <title>Text and Audio to Image</title>
   <style>
     /* Overall page styling */
     body {
@@ -13,6 +13,10 @@
       align-items: center;
       margin: 0;
       padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #333;
     }
     
     /* Textarea styling */
@@ -47,39 +51,80 @@
       border: 2px solid #ccc;
       margin-top: 20px;
     }
+    
+    /* Audio section styling */
+    #audioSection {
+      margin-top: 40px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      width: 80%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 5px;
+    }
+    
+    #transcriptDisplay {
+      font-size: 16px;
+      color: #333;
+      margin-top: 10px;
+      min-height: 24px;
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 3px;
+      background-color: #f9f9f9;
+    }
   </style>
 </head>
 <body>
-  <!-- Text input area -->
+  <!-- Text Input Section -->
+  <h1>Text Input to Image and Audio</h1>
   <textarea id="textInput" placeholder="Enter your text here" rows="4" cols="50"></textarea>
   <br>
-  <!-- Button to process the text -->
-  <button id="submitButton">Submit</button>
+  <button id="submitButton">Submit Text</button>
   <br>
-  <!-- Canvas element to display the text as an image -->
   <canvas id="textCanvas" width="500" height="200"></canvas>
   <br>
-  <!-- Button to play the audio version of the text -->
   <button id="playAudioButton">Play Audio</button>
 
+  <hr style="width:80%; margin-top:40px;">
+
+  <!-- Audio Input Section -->
+  <div id="audioSection">
+    <h2>Audio Input to Text and Image</h2>
+    <button id="startRecordingButton">Start Recording</button>
+    <button id="stopRecordingButton">Stop Recording</button>
+    <p id="transcriptDisplay">Transcript will appear here...</p>
+    <button id="submitAudioButton">Submit Audio</button>
+  </div>
+
   <script>
+    // Element references for text input section
     const textInput = document.getElementById('textInput');
     const submitButton = document.getElementById('submitButton');
     const canvas = document.getElementById('textCanvas');
     const ctx = canvas.getContext('2d');
     const playAudioButton = document.getElementById('playAudioButton');
 
-    // Update canvas function using a background image with fallback handling
-    function updateCanvas() {
-      const text = textInput.value;
-      let fallbackUsed = false;
+    // Element references for audio section
+    const startRecordingButton = document.getElementById('startRecordingButton');
+    const stopRecordingButton = document.getElementById('stopRecordingButton');
+    const transcriptDisplay = document.getElementById('transcriptDisplay');
+    const submitAudioButton = document.getElementById('submitAudioButton');
 
+    /**
+     * updateCanvas:
+     * Draws a natural background image (with fallback) and overlays a semi-transparent layer
+     * before drawing the provided text (or text from the textarea if no argument is given).
+     */
+    function updateCanvas(customText) {
+      const text = customText !== undefined ? customText : textInput.value;
+      let fallbackUsed = false;
       const backgroundImage = new Image();
       backgroundImage.crossOrigin = "anonymous";
-      // Try Unsplash first, append timestamp to avoid caching issues
+      // Try Unsplash first with a timestamp to prevent caching
       backgroundImage.src = 'https://source.unsplash.com/500x200/?nature&' + new Date().getTime();
 
-      // Fallback handler: if Unsplash fails, use Picsum
+      // If the Unsplash image fails, fallback to Picsum
       backgroundImage.onerror = () => {
         if (!fallbackUsed) {
           fallbackUsed = true;
@@ -89,16 +134,15 @@
         }
       };
 
-      // When image loads, draw it along with a semi-transparent overlay and text
       backgroundImage.onload = () => {
+        // Draw the background image
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-        // Overlay for better text clarity
+        // Draw a semi-transparent overlay for better text readability
         ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Set font style: italic, bold, 24px Georgia
+        // Set font style: italic, bold, 24px Georgia with a subtle shadow
         ctx.font = 'italic bold 24px Georgia';
         ctx.fillStyle = 'black';
-        // Optional: add subtle shadow for readability
         ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
@@ -107,15 +151,62 @@
         ctx.fillText(text, 10, 50);
       };
     }
-    
-    // Update canvas when clicking Submit
-    submitButton.addEventListener('click', updateCanvas);
 
-    // Convert text to speech when clicking Play Audio
+    // Event listener for the text input "Submit Text" button
+    submitButton.addEventListener('click', () => {
+      updateCanvas();
+    });
+
+    // Event listener for playing audio from the text area using the Speech Synthesis API
     playAudioButton.addEventListener('click', () => {
       const text = textInput.value;
       const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
+    });
+
+    // Speech Recognition for Audio Input Section
+    let recognition;
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert("Speech recognition is not supported in your browser.");
+    } else {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        transcriptDisplay.innerText = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+
+    // Event listeners for audio recording controls
+    startRecordingButton.addEventListener('click', () => {
+      if (recognition) {
+        transcriptDisplay.innerText = "Listening...";
+        recognition.start();
+      }
+    });
+
+    stopRecordingButton.addEventListener('click', () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    });
+
+    // Event listener for the audio input "Submit Audio" button
+    submitAudioButton.addEventListener('click', () => {
+      const transcript = transcriptDisplay.innerText;
+      if (transcript && transcript !== "Transcript will appear here..." && transcript !== "Listening...") {
+        updateCanvas(transcript);
+      } else {
+        alert("No transcript available. Please record some audio first.");
+      }
     });
   </script>
 </body>
