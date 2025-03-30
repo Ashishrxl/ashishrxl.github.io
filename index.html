@@ -121,8 +121,8 @@
       let fallbackUsed = false;
       const backgroundImage = new Image();
       backgroundImage.crossOrigin = "anonymous";
-      // Try Unsplash first with a timestamp to prevent caching
-      backgroundImage.src = 'https://source.unsplash.com/500x200/?nature&' + new Date().getTime();
+      // Use Unsplash's /random endpoint for a nature image with a timestamp to prevent caching
+      backgroundImage.src = 'https://source.unsplash.com/random/500x200?nature&' + new Date().getTime();
 
       // If the Unsplash image fails, fallback to Picsum
       backgroundImage.onerror = () => {
@@ -178,6 +178,7 @@
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         transcriptDisplay.innerText = transcript;
+        console.log("Transcript: " + transcript);
       };
 
       recognition.onerror = (event) => {
