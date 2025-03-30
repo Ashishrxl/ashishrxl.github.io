@@ -45,7 +45,6 @@
     /* Style for the canvas element */
     canvas {
       border: 2px solid #ccc;
-      background-color: #fff8e1; /* Light background color for the image */
       margin-top: 20px;
     }
   </style>
@@ -70,21 +69,47 @@
     const ctx = canvas.getContext('2d');
     const playAudioButton = document.getElementById('playAudioButton');
 
-    // Draw the text on the canvas when the user clicks Submit
-    submitButton.addEventListener('click', () => {
+    // Load a natural background image from Unsplash
+    const backgroundImage = new Image();
+    // Using Unsplash to fetch a random nature image sized to canvas dimensions
+    backgroundImage.crossOrigin = "anonymous";
+    backgroundImage.src = 'https://source.unsplash.com/500x200/?nature';
+    
+    // Function to update the canvas with the background image and text overlay
+    function updateCanvas() {
       const text = textInput.value;
-      // Clear the canvas before drawing new text and fill the background
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#fff8e1"; // Match the canvas background
+      // Draw the background image
+      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      
+      // Draw a semi-transparent overlay rectangle for clear text visibility
+      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // Updated font style: italic, bold, 24px Georgia
+      
+      // Set updated font style: italic, bold, 24px Georgia
       ctx.font = 'italic bold 24px Georgia';
       ctx.fillStyle = 'black';
-      // Draw the text; adjust coordinates as needed for your layout
+      
+      // Optionally add a slight shadow to the text for extra clarity
+      ctx.shadowColor = "rgba(0,0,0,0.3)";
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      ctx.shadowBlur = 2;
+      
+      // Draw the text on the canvas
       ctx.fillText(text, 10, 50);
+    }
+    
+    // Update canvas when clicking Submit
+    submitButton.addEventListener('click', () => {
+      // Check if the background image is loaded
+      if (backgroundImage.complete) {
+        updateCanvas();
+      } else {
+        backgroundImage.onload = updateCanvas;
+      }
     });
 
-    // Convert text to speech when the user clicks Play Audio
+    // Convert text to speech when clicking Play Audio
     playAudioButton.addEventListener('click', () => {
       const text = textInput.value;
       const utterance = new SpeechSynthesisUtterance(text);
