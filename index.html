@@ -95,14 +95,15 @@
     <button id="stopRecordingButton">Stop Recording</button>
     <p id="transcriptDisplay">Transcript will appear here...</p>
     <button id="submitAudioButton">Submit Audio</button>
+    <!-- New canvas for displaying image generated from audio transcript -->
+    <canvas id="audioCanvas" width="500" height="200"></canvas>
   </div>
 
   <script>
     // Element references for text input section
     const textInput = document.getElementById('textInput');
     const submitButton = document.getElementById('submitButton');
-    const canvas = document.getElementById('textCanvas');
-    const ctx = canvas.getContext('2d');
+    const textCanvas = document.getElementById('textCanvas');
     const playAudioButton = document.getElementById('playAudioButton');
 
     // Element references for audio section
@@ -110,18 +111,23 @@
     const stopRecordingButton = document.getElementById('stopRecordingButton');
     const transcriptDisplay = document.getElementById('transcriptDisplay');
     const submitAudioButton = document.getElementById('submitAudioButton');
+    const audioCanvas = document.getElementById('audioCanvas');
 
     /**
      * updateCanvas:
      * Draws a natural background image (with fallback) and overlays a semi-transparent layer
-     * before drawing the provided text (or text from the textarea if no argument is given).
+     * before drawing the provided text onto the specified canvas.
+     * @param {string} customText - The text to be drawn on the canvas.
+     * @param {HTMLCanvasElement} targetCanvas - The canvas element to draw on.
      */
-    function updateCanvas(customText) {
+    function updateCanvas(customText, targetCanvas) {
       const text = customText !== undefined ? customText : textInput.value;
+      const canvasTarget = targetCanvas;
+      const ctxTarget = canvasTarget.getContext('2d');
       let fallbackUsed = false;
       const backgroundImage = new Image();
       backgroundImage.crossOrigin = "anonymous";
-      // Use Unsplash's /random endpoint for a nature image with a timestamp to prevent caching
+      // Use Unsplash's random endpoint for a nature image with timestamp to prevent caching
       backgroundImage.src = 'https://source.unsplash.com/random/500x200?nature&' + new Date().getTime();
 
       // If the Unsplash image fails, fallback to Picsum
@@ -136,25 +142,25 @@
 
       backgroundImage.onload = () => {
         // Draw the background image
-        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        ctxTarget.drawImage(backgroundImage, 0, 0, canvasTarget.width, canvasTarget.height);
         // Draw a semi-transparent overlay for better text readability
-        ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctxTarget.fillStyle = "rgba(255, 255, 255, 0.6)";
+        ctxTarget.fillRect(0, 0, canvasTarget.width, canvasTarget.height);
         // Set font style: italic, bold, 24px Georgia with a subtle shadow
-        ctx.font = 'italic bold 24px Georgia';
-        ctx.fillStyle = 'black';
-        ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
-        ctx.shadowBlur = 2;
+        ctxTarget.font = 'italic bold 24px Georgia';
+        ctxTarget.fillStyle = 'black';
+        ctxTarget.shadowColor = "rgba(0, 0, 0, 0.3)";
+        ctxTarget.shadowOffsetX = 2;
+        ctxTarget.shadowOffsetY = 2;
+        ctxTarget.shadowBlur = 2;
         // Draw the text on the canvas
-        ctx.fillText(text, 10, 50);
+        ctxTarget.fillText(text, 10, 50);
       };
     }
 
     // Event listener for the text input "Submit Text" button
     submitButton.addEventListener('click', () => {
-      updateCanvas();
+      updateCanvas(undefined, textCanvas);
     });
 
     // Event listener for playing audio from the text area using the Speech Synthesis API
@@ -204,7 +210,7 @@
     submitAudioButton.addEventListener('click', () => {
       const transcript = transcriptDisplay.innerText;
       if (transcript && transcript !== "Transcript will appear here..." && transcript !== "Listening...") {
-        updateCanvas(transcript);
+        updateCanvas(transcript, audioCanvas);
       } else {
         alert("No transcript available. Please record some audio first.");
       }
