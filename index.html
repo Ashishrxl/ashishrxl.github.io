@@ -69,41 +69,42 @@
     const ctx = canvas.getContext('2d');
     const playAudioButton = document.getElementById('playAudioButton');
 
-    // Update canvas function using a newly loaded background image
+    // Update canvas function using a background image with fallback handling
     function updateCanvas() {
       const text = textInput.value;
-      // Create a new Image instance for each submission
+      let fallbackUsed = false;
+
       const backgroundImage = new Image();
       backgroundImage.crossOrigin = "anonymous";
-      // Append a timestamp to prevent caching issues
+      // Try Unsplash first, append timestamp to avoid caching issues
       backgroundImage.src = 'https://source.unsplash.com/500x200/?nature&' + new Date().getTime();
 
-      // Once the image loads, draw it on the canvas
+      // Fallback handler: if Unsplash fails, use Picsum
+      backgroundImage.onerror = () => {
+        if (!fallbackUsed) {
+          fallbackUsed = true;
+          backgroundImage.src = 'https://picsum.photos/500/200';
+        } else {
+          alert("Failed to load background image. Please try again.");
+        }
+      };
+
+      // When image loads, draw it along with a semi-transparent overlay and text
       backgroundImage.onload = () => {
-        // Draw the background image
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-        
-        // Draw a semi-transparent white overlay for text clarity
+        // Overlay for better text clarity
         ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Set updated font style: italic, bold, 24px Georgia
+        // Set font style: italic, bold, 24px Georgia
         ctx.font = 'italic bold 24px Georgia';
         ctx.fillStyle = 'black';
-        
-        // Optional: Add a subtle text shadow for enhanced readability
+        // Optional: add subtle shadow for readability
         ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
         ctx.shadowBlur = 2;
-        
         // Draw the text on the canvas
         ctx.fillText(text, 10, 50);
-      };
-
-      // Optionally handle image loading errors
-      backgroundImage.onerror = () => {
-        alert("Failed to load background image. Please try again.");
       };
     }
     
