@@ -1,7 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Text to Image and Audio</title>
+  <style>
+    /* Style for the overall page */
+    body {
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    /* Style for the text area */
+    textarea {
+      width: 80%;
+      max-width: 600px;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    
+    /* Style for the buttons */
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    /* Style for the canvas element */
+    canvas {
+      border: 2px solid #ccc;
+      background-color: #fff8e1; /* Light background color for the image */
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <!-- Text input area -->
@@ -9,12 +56,10 @@
   <br>
   <!-- Button to process the text -->
   <button id="submitButton">Submit</button>
-  <br><br>
-  
+  <br>
   <!-- Canvas element to display the text as an image -->
-  <canvas id="textCanvas" width="500" height="200" style="border:1px solid #000"></canvas>
-  <br><br>
-  
+  <canvas id="textCanvas" width="500" height="200"></canvas>
+  <br>
   <!-- Button to play the audio version of the text -->
   <button id="playAudioButton">Play Audio</button>
 
@@ -28,10 +73,12 @@
     // Draw the text on the canvas when the user clicks Submit
     submitButton.addEventListener('click', () => {
       const text = textInput.value;
-      // Clear the canvas before drawing new text
+      // Clear the canvas before drawing new text and fill the background
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Set font style and text properties
-      ctx.font = '20px Arial';
+      ctx.fillStyle = "#fff8e1"; // Match the canvas background
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Updated font style: italic, bold, 24px Georgia
+      ctx.font = 'italic bold 24px Georgia';
       ctx.fillStyle = 'black';
       // Draw the text; adjust coordinates as needed for your layout
       ctx.fillText(text, 10, 50);
