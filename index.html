@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Text to Image and Audio</title>
   <style>
-    /* Style for the overall page */
+    /* Overall page styling */
     body {
       background-color: #f5f5f5;
       font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
       padding: 20px;
     }
     
-    /* Style for the text area */
+    /* Textarea styling */
     textarea {
       width: 80%;
       max-width: 600px;
@@ -26,7 +26,7 @@
       margin-bottom: 10px;
     }
     
-    /* Style for the buttons */
+    /* Button styling */
     button {
       padding: 10px 20px;
       margin: 10px;
@@ -42,7 +42,7 @@
       background-color: #0056b3;
     }
     
-    /* Style for the canvas element */
+    /* Canvas styling */
     canvas {
       border: 2px solid #ccc;
       margin-top: 20px;
@@ -69,45 +69,46 @@
     const ctx = canvas.getContext('2d');
     const playAudioButton = document.getElementById('playAudioButton');
 
-    // Load a natural background image from Unsplash
-    const backgroundImage = new Image();
-    // Using Unsplash to fetch a random nature image sized to canvas dimensions
-    backgroundImage.crossOrigin = "anonymous";
-    backgroundImage.src = 'https://source.unsplash.com/500x200/?nature';
-    
-    // Function to update the canvas with the background image and text overlay
+    // Update canvas function using a newly loaded background image
     function updateCanvas() {
       const text = textInput.value;
-      // Draw the background image
-      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-      
-      // Draw a semi-transparent overlay rectangle for clear text visibility
-      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Set updated font style: italic, bold, 24px Georgia
-      ctx.font = 'italic bold 24px Georgia';
-      ctx.fillStyle = 'black';
-      
-      // Optionally add a slight shadow to the text for extra clarity
-      ctx.shadowColor = "rgba(0,0,0,0.3)";
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.shadowBlur = 2;
-      
-      // Draw the text on the canvas
-      ctx.fillText(text, 10, 50);
+      // Create a new Image instance for each submission
+      const backgroundImage = new Image();
+      backgroundImage.crossOrigin = "anonymous";
+      // Append a timestamp to prevent caching issues
+      backgroundImage.src = 'https://source.unsplash.com/500x200/?nature&' + new Date().getTime();
+
+      // Once the image loads, draw it on the canvas
+      backgroundImage.onload = () => {
+        // Draw the background image
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        
+        // Draw a semi-transparent white overlay for text clarity
+        ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Set updated font style: italic, bold, 24px Georgia
+        ctx.font = 'italic bold 24px Georgia';
+        ctx.fillStyle = 'black';
+        
+        // Optional: Add a subtle text shadow for enhanced readability
+        ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.shadowBlur = 2;
+        
+        // Draw the text on the canvas
+        ctx.fillText(text, 10, 50);
+      };
+
+      // Optionally handle image loading errors
+      backgroundImage.onerror = () => {
+        alert("Failed to load background image. Please try again.");
+      };
     }
     
     // Update canvas when clicking Submit
-    submitButton.addEventListener('click', () => {
-      // Check if the background image is loaded
-      if (backgroundImage.complete) {
-        updateCanvas();
-      } else {
-        backgroundImage.onload = updateCanvas;
-      }
-    });
+    submitButton.addEventListener('click', updateCanvas);
 
     // Convert text to speech when clicking Play Audio
     playAudioButton.addEventListener('click', () => {
