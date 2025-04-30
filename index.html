@@ -4,11 +4,47 @@
   <meta charset="UTF-8">
   <title>Shopping List</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    ul { list-style: none; padding: 0; }
-    li { margin: 5px 0; cursor: pointer; }
-    .section { margin-bottom: 30px; }
-    input, button { padding: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    input[type="text"], button {
+      padding: 8px;
+      font-size: 14px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s ease;
+    }
+    li:hover {
+      background-color: #f1f1f1;
+    }
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
+    .item-text {
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    .bought .item-text {
+      text-decoration: line-through;
+      color: #888;
+    }
   </style>
 </head>
 <body>
@@ -37,24 +73,34 @@
 
       const li = createListItem(itemText, true);
       document.getElementById("toBuyList").appendChild(li);
-
       input.value = "";
     }
 
     function createListItem(text, isToBuy) {
       const li = document.createElement("li");
-      li.textContent = text;
-      li.onclick = () => toggleItem(li, isToBuy);
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = !isToBuy;
+
+      const label = document.createElement("span");
+      label.textContent = text;
+      label.className = "item-text";
+
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      if (!isToBuy) li.classList.add("bought");
+
+      checkbox.onchange = () => {
+        if (checkbox.checked) {
+          li.classList.add("bought");
+          document.getElementById("boughtList").appendChild(li);
+        } else {
+          li.classList.remove("bought");
+          document.getElementById("toBuyList").appendChild(li);
+        }
+      };
+
       return li;
-    }
-
-    function toggleItem(item, isCurrentlyInToBuy) {
-      const parentList = isCurrentlyInToBuy ? "toBuyList" : "boughtList";
-      const targetList = isCurrentlyInToBuy ? "boughtList" : "toBuyList";
-      const newItem = createListItem(item.textContent, !isCurrentlyInToBuy);
-
-      document.getElementById(targetList).appendChild(newItem);
-      item.remove();
     }
   </script>
 
