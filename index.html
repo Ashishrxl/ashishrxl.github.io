@@ -1,220 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Text and Audio to Image</title>
+  <title>Shopping List</title>
   <style>
-    /* Overall page styling */
-    body {
-      background-color: #f5f5f5;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0;
-      padding: 20px;
-    }
-    
-    h1, h2 {
-      color: #333;
-    }
-    
-    /* Textarea styling */
-    textarea {
-      width: 80%;
-      max-width: 600px;
-      padding: 10px;
-      border: 2px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    
-    /* Button styling */
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      background-color: #007BFF;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    
-    button:hover {
-      background-color: #0056b3;
-    }
-    
-    /* Canvas styling */
-    canvas {
-      border: 2px solid #ccc;
-      margin-top: 20px;
-    }
-    
-    /* Audio section styling */
-    #audioSection {
-      margin-top: 40px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      width: 80%;
-      max-width: 600px;
-      background-color: #ffffff;
-      border-radius: 5px;
-    }
-    
-    #transcriptDisplay {
-      font-size: 16px;
-      color: #333;
-      margin-top: 10px;
-      min-height: 24px;
-      border: 1px solid #ccc;
-      padding: 5px;
-      border-radius: 3px;
-      background-color: #f9f9f9;
-    }
+    body { font-family: Arial; padding: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 5px 0; cursor: pointer; }
+    .section { margin-bottom: 30px; }
+    input, button { padding: 5px; }
   </style>
 </head>
 <body>
-  <!-- Text Input Section -->
-  <h1>Text Input to Image and Audio</h1>
-  <textarea id="textInput" placeholder="Enter your text here" rows="4" cols="50"></textarea>
-  <br>
-  <button id="submitButton">Submit Text</button>
-  <br>
-  <canvas id="textCanvas" width="500" height="200"></canvas>
-  <br>
-  <button id="playAudioButton">Play Audio</button>
 
-  <hr style="width:80%; margin-top:40px;">
+  <div class="section">
+    <h2>Add Item</h2>
+    <input type="text" id="itemInput" placeholder="Enter item">
+    <button onclick="addItem()">Add</button>
+  </div>
 
-  <!-- Audio Input Section -->
-  <div id="audioSection">
-    <h2>Audio Input to Text and Image</h2>
-    <button id="startRecordingButton">Start Recording</button>
-    <button id="stopRecordingButton">Stop Recording</button>
-    <p id="transcriptDisplay">Transcript will appear here...</p>
-    <button id="submitAudioButton">Submit Audio</button>
-    <!-- New canvas for displaying image generated from audio transcript -->
-    <canvas id="audioCanvas" width="500" height="200"></canvas>
+  <div class="section">
+    <h2>Items to Buy</h2>
+    <ul id="toBuyList"></ul>
+  </div>
+
+  <div class="section">
+    <h2>Bought Items</h2>
+    <ul id="boughtList"></ul>
   </div>
 
   <script>
-    // Element references for text input section
-    const textInput = document.getElementById('textInput');
-    const submitButton = document.getElementById('submitButton');
-    const textCanvas = document.getElementById('textCanvas');
-    const playAudioButton = document.getElementById('playAudioButton');
+    function addItem() {
+      const input = document.getElementById("itemInput");
+      const itemText = input.value.trim();
+      if (itemText === "") return;
 
-    // Element references for audio section
-    const startRecordingButton = document.getElementById('startRecordingButton');
-    const stopRecordingButton = document.getElementById('stopRecordingButton');
-    const transcriptDisplay = document.getElementById('transcriptDisplay');
-    const submitAudioButton = document.getElementById('submitAudioButton');
-    const audioCanvas = document.getElementById('audioCanvas');
+      const li = document.createElement("li");
+      li.textContent = itemText;
+      li.onclick = () => moveToBought(li);
+      document.getElementById("toBuyList").appendChild(li);
 
-    /**
-     * updateCanvas:
-     * Draws a natural background image (with fallback) and overlays a semi-transparent layer
-     * before drawing the provided text onto the specified canvas.
-     * @param {string} customText - The text to be drawn on the canvas.
-     * @param {HTMLCanvasElement} targetCanvas - The canvas element to draw on.
-     */
-    function updateCanvas(customText, targetCanvas) {
-      const text = customText !== undefined ? customText : textInput.value;
-      const canvasTarget = targetCanvas;
-      const ctxTarget = canvasTarget.getContext('2d');
-      let fallbackUsed = false;
-      const backgroundImage = new Image();
-      backgroundImage.crossOrigin = "anonymous";
-      // Use Unsplash's random endpoint for a nature image with timestamp to prevent caching
-      backgroundImage.src = 'https://source.unsplash.com/random/500x200?nature&' + new Date().getTime();
-
-      // If the Unsplash image fails, fallback to Picsum
-      backgroundImage.onerror = () => {
-        if (!fallbackUsed) {
-          fallbackUsed = true;
-          backgroundImage.src = 'https://picsum.photos/500/200';
-        } else {
-          alert("Failed to load background image. Please try again.");
-        }
-      };
-
-      backgroundImage.onload = () => {
-        // Draw the background image
-        ctxTarget.drawImage(backgroundImage, 0, 0, canvasTarget.width, canvasTarget.height);
-        // Draw a semi-transparent overlay for better text readability
-        ctxTarget.fillStyle = "rgba(255, 255, 255, 0.6)";
-        ctxTarget.fillRect(0, 0, canvasTarget.width, canvasTarget.height);
-        // Set font style: italic, bold, 24px Georgia with a subtle shadow
-        ctxTarget.font = 'italic bold 24px Georgia';
-        ctxTarget.fillStyle = 'black';
-        ctxTarget.shadowColor = "rgba(0, 0, 0, 0.3)";
-        ctxTarget.shadowOffsetX = 2;
-        ctxTarget.shadowOffsetY = 2;
-        ctxTarget.shadowBlur = 2;
-        // Draw the text on the canvas
-        ctxTarget.fillText(text, 10, 50);
-      };
+      input.value = "";
     }
 
-    // Event listener for the text input "Submit Text" button
-    submitButton.addEventListener('click', () => {
-      updateCanvas(undefined, textCanvas);
-    });
-
-    // Event listener for playing audio from the text area using the Speech Synthesis API
-    playAudioButton.addEventListener('click', () => {
-      const text = textInput.value;
-      const utterance = new SpeechSynthesisUtterance(text);
-      window.speechSynthesis.speak(utterance);
-    });
-
-    // Speech Recognition for Audio Input Section
-    let recognition;
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert("Speech recognition is not supported in your browser.");
-    } else {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        transcriptDisplay.innerText = transcript;
-        console.log("Transcript: " + transcript);
-      };
-
-      recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-      };
+    function moveToBought(item) {
+      item.onclick = null; // prevent moving again
+      document.getElementById("boughtList").appendChild(item);
     }
-
-    // Event listeners for audio recording controls
-    startRecordingButton.addEventListener('click', () => {
-      if (recognition) {
-        transcriptDisplay.innerText = "Listening...";
-        recognition.start();
-      }
-    });
-
-    stopRecordingButton.addEventListener('click', () => {
-      if (recognition) {
-        recognition.stop();
-      }
-    });
-
-    // Event listener for the audio input "Submit Audio" button
-    submitAudioButton.addEventListener('click', () => {
-      const transcript = transcriptDisplay.innerText;
-      if (transcript && transcript !== "Transcript will appear here..." && transcript !== "Listening...") {
-        updateCanvas(transcript, audioCanvas);
-      } else {
-        alert("No transcript available. Please record some audio first.");
-      }
-    });
   </script>
+
 </body>
 </html>
