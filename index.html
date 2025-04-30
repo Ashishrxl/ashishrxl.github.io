@@ -35,17 +35,26 @@
       const itemText = input.value.trim();
       if (itemText === "") return;
 
-      const li = document.createElement("li");
-      li.textContent = itemText;
-      li.onclick = () => moveToBought(li);
+      const li = createListItem(itemText, true);
       document.getElementById("toBuyList").appendChild(li);
 
       input.value = "";
     }
 
-    function moveToBought(item) {
-      item.onclick = null; // prevent moving again
-      document.getElementById("boughtList").appendChild(item);
+    function createListItem(text, isToBuy) {
+      const li = document.createElement("li");
+      li.textContent = text;
+      li.onclick = () => toggleItem(li, isToBuy);
+      return li;
+    }
+
+    function toggleItem(item, isCurrentlyInToBuy) {
+      const parentList = isCurrentlyInToBuy ? "toBuyList" : "boughtList";
+      const targetList = isCurrentlyInToBuy ? "boughtList" : "toBuyList";
+      const newItem = createListItem(item.textContent, !isCurrentlyInToBuy);
+
+      document.getElementById(targetList).appendChild(newItem);
+      item.remove();
     }
   </script>
 
