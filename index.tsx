@@ -12,7 +12,7 @@ import { throttle } from './utils/throttle';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 // FIX: Use 'gemini-2.5-flash' model for general text tasks as per guidelines.
-const model = 'gemini-2.5-flash';
+const model = 'gemini-1.5-flash';
 
 function main() {
   const initialPrompts = buildInitialPrompts();
