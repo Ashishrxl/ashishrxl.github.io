@@ -1,22 +1,110 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel="stylesheet" href="/index.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.sh/@google/genai@^1.0.0",
-          "lit/": "https://esm.sh/lit@^3.3.0/",
-          "lit": "https://esm.sh/lit@^3.3.0"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    input[type="text"], button {
+      padding: 8px;
+      font-size: 14px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s ease;
+    }
+    li:hover {
+      background-color: #f1f1f1;
+    }
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
+    .item-text {
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    .bought .item-text {
+      text-decoration: line-through;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <h2>Add Item</h2>
+    <input type="text" id="itemInput" placeholder="Enter item">
+    <button onclick="addItem()">Add</button>
+  </div>
+
+  <div class="section">
+    <h2>Items to Buy</h2>
+    <ul id="toBuyList"></ul>
+  </div>
+
+  <div class="section">
+    <h2>Bought Items</h2>
+    <ul id="boughtList"></ul>
+  </div>
+
+  <script>
+    function addItem() {
+      const input = document.getElementById("itemInput");
+      const itemText = input.value.trim();
+      if (itemText === "") return;
+
+      const li = createListItem(itemText, true);
+      document.getElementById("toBuyList").appendChild(li);
+      input.value = "";
+    }
+
+    function createListItem(text, isToBuy) {
+      const li = document.createElement("li");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = !isToBuy;
+
+      const label = document.createElement("span");
+      label.textContent = text;
+      label.className = "item-text";
+
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      if (!isToBuy) li.classList.add("bought");
+
+      checkbox.onchange = () => {
+        if (checkbox.checked) {
+          li.classList.add("bought");
+          document.getElementById("boughtList").appendChild(li);
+        } else {
+          li.classList.remove("bought");
+          document.getElementById("toBuyList").appendChild(li);
         }
-      }
-    </script>
-  </head>
-  <body>
+      };
 
-    <script type="module" src="/index.tsx"></script>
+      return li;
+    }
+  
+    
+</script>
 
-    <p> hello</p>
-  </body>
+</body>
 </html>
